@@ -60,8 +60,6 @@ public class Menu implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         
         String invName = event.getInventory().getTitle();
-        System.out.println(event.getInventory().getTitle());
-        System.out.println(event.getInventory().getName());
 
         if (!invName.equals(title)) {
             return;
