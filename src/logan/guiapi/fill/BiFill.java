@@ -32,7 +32,6 @@ public class BiFill implements Filler {
             builder.setDurability((i % 2) == 0 ? colorOne : colorTwo);
             
             MenuItem menuItem = builder.build();
-            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }

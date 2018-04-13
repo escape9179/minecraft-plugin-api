@@ -30,7 +30,7 @@ public class Menu implements Listener {
 
     public Menu(JavaPlugin plugin, String title, int rows) {
         this(plugin);
-        
+
         this.title = title;
         slots = rows * 9;
         inventory = Bukkit.createInventory(null, slots, title);
@@ -76,6 +76,22 @@ public class Menu implements Listener {
         return inventory;
     }
 
+    public int getTopLeft() {
+        return 0;
+    }
+    
+    public int getTopRight() {
+        return 8;
+    }
+    
+    public int getBottomLeft() {
+        return inventory.getSize() - 9;
+    }
+    
+    public int getBottomRight() {
+        return inventory.getSize() - 1;
+    }
+    
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
@@ -85,6 +101,7 @@ public class Menu implements Listener {
             return;
         }
 
+        event.setCancelled(true);
         menuItems.keySet().stream()
                 .filter(s -> s == event.getSlot())
                 .forEach(s -> menuItems.get(s).onClick(new MenuItemClickEvent(event)));

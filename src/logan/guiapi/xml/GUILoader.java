@@ -27,17 +27,9 @@ public class GUILoader {
     private static final String MENU_ELEMENT = "menu";
     private static final String ITEM_ELEMENT = "item";
 
-    public static MenuItem loadItemFromXML(String id, InputStream stream) {
+    public static MenuItem loadItemFromXML(JavaPlugin plugin, String id, String path) {
+        XMLStreamReader reader = setupStream(plugin, path);
         MenuItem menuItem = null;
-
-        XMLStreamReader reader;
-        try {
-            XMLInputFactory factory = XMLInputFactory.newFactory();
-            reader = factory.createXMLStreamReader(stream);
-        } catch (XMLStreamException ex) {
-            ex.printStackTrace();
-            return null;
-        }
 
         try {
             while (reader.hasNext()) {
@@ -55,7 +47,7 @@ public class GUILoader {
                     if (!itemVar.equals(id)) {
                         continue;
                     }
-                    
+
                     menuItem = parseXMLItemAttributes(reader, count);
                 }
             }
@@ -70,17 +62,9 @@ public class GUILoader {
         return menuItem;
     }
 
-    public static Menu loadMenuFromXML(String id, JavaPlugin plugin, InputStream stream) {
+    public static Menu loadMenuFromXML(JavaPlugin plugin, String id, String path) {
+        XMLStreamReader reader = setupStream(plugin, path);
         Menu menu = null;
-
-        XMLStreamReader reader;
-        try {
-            XMLInputFactory factory = XMLInputFactory.newFactory();
-            reader = factory.createXMLStreamReader(stream);
-        } catch (XMLStreamException ex) {
-            ex.printStackTrace();
-            return null;
-        }
 
         try {
             while (reader.hasNext()) {
@@ -111,6 +95,21 @@ public class GUILoader {
         }
 
         return menu;
+    }
+
+    private static XMLStreamReader setupStream(JavaPlugin plugin, String path) {
+        InputStream stream = plugin.getClass().getResourceAsStream(path);
+
+        XMLStreamReader reader;
+        try {
+            XMLInputFactory factory = XMLInputFactory.newFactory();
+            reader = factory.createXMLStreamReader(stream);
+        } catch (XMLStreamException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        return reader;
     }
 
     private static Menu parseXMLMenuAttributes(JavaPlugin plugin, XMLStreamReader reader, int count) {

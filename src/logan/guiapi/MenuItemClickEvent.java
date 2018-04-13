@@ -32,8 +32,8 @@ public class MenuItemClickEvent {
         return clickEvent;
     }
     
-    public void cancel() {
-        clickEvent.setCancelled(true);
+    public void cancel(boolean cancel) {
+        clickEvent.setCancelled(cancel);
     }
     
 }

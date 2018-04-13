@@ -30,7 +30,6 @@ public class UniFill implements Filler {
             builder.setDurability(color);
             
             MenuItem menuItem = builder.build();
-            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
             
         }

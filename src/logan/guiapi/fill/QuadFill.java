@@ -55,7 +55,6 @@ public class QuadFill implements Filler {
             counter++;
             
             MenuItem menuItem = builder.build();
-            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }

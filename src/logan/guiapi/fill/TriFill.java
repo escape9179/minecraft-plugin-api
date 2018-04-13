@@ -50,7 +50,6 @@ public class TriFill implements Filler {
             counter++;
             
             MenuItem menuItem = builder.build();
-            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }
