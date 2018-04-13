@@ -32,7 +32,6 @@ public class TriFill implements Filler {
             MenuItemBuilder builder = new MenuItemBuilder();
             builder.setMaterial(Material.STAINED_GLASS_PANE);
             builder.clearName();
-            builder.addListener(MenuItemClickEvent::cancel);
 
             switch (counter) {
                 case 0:
@@ -51,6 +50,7 @@ public class TriFill implements Filler {
             counter++;
             
             MenuItem menuItem = builder.build();
+            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }

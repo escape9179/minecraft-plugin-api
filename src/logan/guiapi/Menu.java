@@ -23,9 +23,14 @@ public class Menu implements Listener {
 
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
-    public Menu(JavaPlugin plugin, String title, int rows) {
+    public Menu(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        inventory = Bukkit.createInventory(null, 9);
+    }
 
+    public Menu(JavaPlugin plugin, String title, int rows) {
+        this(plugin);
+        
         this.title = title;
         slots = rows * 9;
         inventory = Bukkit.createInventory(null, slots, title);
@@ -36,10 +41,25 @@ public class Menu implements Listener {
         player.openInventory(inventory);
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+        inventory = Bukkit.createInventory(null, slots, title);
+    }
+
+    public void setSlots(int slots) {
+        this.slots = slots;
+        inventory = Bukkit.createInventory(null, slots, title);
+    }
+
+    public void setRows(int rows) {
+        this.slots = rows * 9;
+        inventory = Bukkit.createInventory(null, slots, title);
+    }
+
     public void fill(Filler fillPattern) {
         fillPattern.fill(this);
     }
-    
+
     public void addItem(int slot, MenuItem menuItem) {
         menuItems.put(slot, menuItem);
     }
@@ -58,7 +78,7 @@ public class Menu implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        
+
         String invName = event.getInventory().getTitle();
 
         if (!invName.equals(title)) {

@@ -12,12 +12,16 @@ public final class MenuItem implements MenuItemClickListener {
     private final ItemStack itemStack;
     private String name;
 
-    MenuItem(ItemStack itemStack, MenuItemClickListener listener) {
+    MenuItem(ItemStack itemStack) {
         this.itemStack = itemStack;
         this.listener = listener;
         name = itemStack.getItemMeta().getDisplayName();
     }
 
+    public void addListener(MenuItemClickListener listener) {
+        this.listener = listener;
+    }
+    
     public ItemStack getItemStack() {
         return itemStack;
     }

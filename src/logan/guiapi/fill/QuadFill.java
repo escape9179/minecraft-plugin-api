@@ -34,7 +34,6 @@ public class QuadFill implements Filler {
             MenuItemBuilder builder = new MenuItemBuilder();
             builder.setMaterial(Material.STAINED_GLASS_PANE);
             builder.clearName();
-            builder.addListener(MenuItemClickEvent::cancel);
 
             switch (counter) {
                 case 0:
@@ -56,6 +55,7 @@ public class QuadFill implements Filler {
             counter++;
             
             MenuItem menuItem = builder.build();
+            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }

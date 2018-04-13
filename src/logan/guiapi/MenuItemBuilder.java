@@ -18,17 +18,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 public final class MenuItemBuilder {
 
     private ItemStack itemStack = new ItemStack(Material.DIRT);
-    private MenuItemClickListener listener;
 
     public MenuItemBuilder() {
-        
+
     }
 
-    public final MenuItemBuilder addListener(MenuItemClickListener listener) {
-        this.listener = listener;
-        return this;
-    }
-    
     public final MenuItemBuilder setMaterial(Material material) {
         itemStack.setType(material);
         return this;
@@ -38,12 +32,12 @@ public final class MenuItemBuilder {
         setDurability((short) durability);
         return this;
     }
-    
+
     public final MenuItemBuilder setDurability(short durability) {
         itemStack.setDurability(durability);
         return this;
     }
-    
+
     public final MenuItemBuilder setAmount(int amount) {
         itemStack.setAmount(amount);
         return this;
@@ -53,7 +47,7 @@ public final class MenuItemBuilder {
         setName("");
         return this;
     }
-    
+
     public final MenuItemBuilder setName(String name) {
         setMetaProperty(m -> {
             m.setDisplayName(ChatColor.WHITE + name);
@@ -69,14 +63,10 @@ public final class MenuItemBuilder {
         });
         return this;
     }
-    
-    public final MenuItemBuilder addItemEffect(ItemEffect itemEffect) {
-        switch (itemEffect) {
-            case ENCHANTED:
-                addEnchantment(Enchantment.ARROW_DAMAGE, 0, false);
-                addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                break;
-        }
+
+    public final MenuItemBuilder setMagic(boolean magic) {
+        addEnchantment(Enchantment.ARROW_DAMAGE, 0, false);
+        addItemFlags(ItemFlag.HIDE_ENCHANTS);
         return this;
     }
 
@@ -87,7 +77,7 @@ public final class MenuItemBuilder {
         });
         return this;
     }
-    
+
     public final MenuItemBuilder setLore(ChatColor color, String... lore) {
         // append chat color to beginning of each line of lore
         List<String> loreList = Arrays.stream(lore)
@@ -111,15 +101,11 @@ public final class MenuItemBuilder {
     }
 
     public final MenuItem build() {
-        return new MenuItem(itemStack, listener);
-    }
-    
-    private void setMetaProperty(Function<ItemMeta, ItemMeta> function) {
-        itemStack.setItemMeta(function.apply(itemStack.getItemMeta()));
+        return new MenuItem(itemStack);
     }
 
-    public enum ItemEffect {
-        ENCHANTED
+    private void setMetaProperty(Function<ItemMeta, ItemMeta> function) {
+        itemStack.setItemMeta(function.apply(itemStack.getItemMeta()));
     }
 
 }

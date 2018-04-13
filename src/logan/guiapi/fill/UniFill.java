@@ -28,9 +28,9 @@ public class UniFill implements Filler {
             builder.setMaterial(Material.STAINED_GLASS_PANE);
             builder.clearName();
             builder.setDurability(color);
-            builder.addListener(MenuItemClickEvent::cancel);
             
             MenuItem menuItem = builder.build();
+            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
             
         }

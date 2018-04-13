@@ -30,9 +30,9 @@ public class BiFill implements Filler {
             builder.setMaterial(Material.STAINED_GLASS_PANE);
             builder.clearName();
             builder.setDurability((i % 2) == 0 ? colorOne : colorTwo);
-            builder.addListener(MenuItemClickEvent::cancel);
             
             MenuItem menuItem = builder.build();
+            menuItem.addListener(MenuItemClickEvent::cancel);
             menu.addItem(i, menuItem);
         }
     }
