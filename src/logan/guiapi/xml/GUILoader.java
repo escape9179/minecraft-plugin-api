@@ -1,6 +1,10 @@
 package logan.guiapi.xml;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -16,6 +20,7 @@ import logan.guiapi.fill.TriFill;
 import logan.guiapi.fill.UniFill;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -26,6 +31,7 @@ public class GUILoader {
 
     private static final String MENU_ELEMENT = "menu";
     private static final String ITEM_ELEMENT = "item";
+    private static final String ID_ATTRIBUTE = "id";
 
     public static MenuItem loadItemFromXML(JavaPlugin plugin, String id, String path) {
         XMLStreamReader reader = setupStream(plugin, path);
@@ -43,7 +49,7 @@ public class GUILoader {
                 int count = reader.getAttributeCount();
 
                 if (elementName.equals(ITEM_ELEMENT)) {
-                    String itemVar = getAttribute(reader, "id").getValue();
+                    String itemVar = getAttribute(reader, ID_ATTRIBUTE).getValue();
                     if (!itemVar.equals(id)) {
                         continue;
                     }
@@ -78,7 +84,7 @@ public class GUILoader {
                 int count = reader.getAttributeCount();
 
                 if (elementName.equals(MENU_ELEMENT)) {
-                    String menuVar = getAttribute(reader, "id").getValue();
+                    String menuVar = getAttribute(reader, ID_ATTRIBUTE).getValue();
                     if (!menuVar.equals(id)) {
                         continue;
                     }
@@ -187,6 +193,12 @@ public class GUILoader {
                     break;
                 case "magic":
                     builder.setMagic(Boolean.parseBoolean(value));
+                    break;
+                case "flags":
+                    String[] parts = value.split(",");
+                    Stream<ItemFlag> flagStream = Arrays.stream(parts).map(ItemFlag::valueOf);
+                    List<ItemFlag> flagList = flagStream.collect(Collectors.toList());
+                    builder.addItemFlags(flagList);
                     break;
                 default:
             }

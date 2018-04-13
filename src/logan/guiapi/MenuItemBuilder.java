@@ -56,6 +56,12 @@ public final class MenuItemBuilder {
         return this;
     }
 
+    public final MenuItemBuilder addItemFlags(List<ItemFlag> flags) {
+        ItemFlag[] flagArray = new ItemFlag[flags.size()];
+        addItemFlags(flags.toArray(flagArray));
+        return this;
+    }
+    
     public final MenuItemBuilder addItemFlags(ItemFlag... flags) {
         setMetaProperty(m -> {
             m.addItemFlags(flags);
