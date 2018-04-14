@@ -15,6 +15,7 @@ import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
 import logan.guiapi.MenuItemBuilder;
 import logan.guiapi.fill.BiFill;
+import logan.guiapi.fill.FillColor;
 import logan.guiapi.fill.QuadFill;
 import logan.guiapi.fill.TriFill;
 import logan.guiapi.fill.UniFill;
@@ -138,31 +139,31 @@ public class GUILoader {
                     menu.setRows(Integer.parseInt(value));
                     break;
                 case "unifill":
-                    short shortVal = Short.parseShort(value);
-                    menu.fill(new UniFill(shortVal));
+                    FillColor color = FillColor.getFillColor(value);
+                    menu.fill(new UniFill(color));
                     break;
                 case "bifill": {
                     String[] vals = value.split(",");
-                    short valOne = Short.parseShort(vals[0].trim());
-                    short valTwo = Short.parseShort(vals[1].trim());
-                    menu.fill(new BiFill(valOne, valTwo));
+                    FillColor colorOne = FillColor.getFillColor(vals[0].trim());
+                    FillColor colorTwo = FillColor.getFillColor(vals[1].trim());
+                    menu.fill(new BiFill(colorOne, colorTwo));
                 }
                 break;
                 case "trifill": {
                     String[] vals = value.split(",");
-                    short valOne = Short.parseShort(vals[0].trim());
-                    short valTwo = Short.parseShort(vals[1].trim());
-                    short valThree = Short.parseShort(vals[2].trim());
-                    menu.fill(new TriFill(valOne, valTwo, valThree));
+                    FillColor colorOne = FillColor.getFillColor(vals[0].trim());
+                    FillColor colorTwo = FillColor.getFillColor(vals[1].trim());
+                    FillColor colorThree = FillColor.getFillColor(vals[2].trim());
+                    menu.fill(new TriFill(colorOne, colorTwo, colorThree));
                 }
                 break;
                 case "quadfill": {
                     String[] vals = value.split(",");
-                    short valOne = Short.parseShort(vals[0].trim());
-                    short valTwo = Short.parseShort(vals[1].trim());
-                    short valThree = Short.parseShort(vals[2].trim());
-                    short valFour = Short.parseShort(vals[3].trim());
-                    menu.fill(new QuadFill(valOne, valTwo, valThree, valFour));
+                    FillColor colorOne = FillColor.getFillColor(vals[0].trim());
+                    FillColor colorTwo = FillColor.getFillColor(vals[1].trim());
+                    FillColor colorThree = FillColor.getFillColor(vals[2].trim());
+                    FillColor colorFour = FillColor.getFillColor(vals[3].trim());
+                    menu.fill(new QuadFill(colorOne, colorTwo, colorThree, colorFour));
                 }
                 break;
             }

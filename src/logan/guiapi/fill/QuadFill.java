@@ -17,11 +17,11 @@ public class QuadFill implements Filler {
     private short colorThree;
     private short colorFour;
 
-    public QuadFill(int colorOne, int colorTwo, int colorThree, int colorFour) {
-        this.colorOne = (short) colorOne;
-        this.colorTwo = (short) colorTwo;
-        this.colorThree = (short) colorThree;
-        this.colorFour = (short) colorFour;
+    public QuadFill(FillColor colorOne, FillColor colorTwo, FillColor colorThree, FillColor colorFour) {
+        this.colorOne = colorOne.getShort();
+        this.colorTwo = colorTwo.getShort();
+        this.colorThree = colorThree.getShort();
+        this.colorFour = colorFour.getShort();
     }
 
     @Override

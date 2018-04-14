@@ -3,7 +3,6 @@ package logan.guiapi.fill;
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
 import logan.guiapi.MenuItemBuilder;
-import logan.guiapi.MenuItemClickEvent;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
@@ -17,10 +16,10 @@ public class TriFill implements Filler {
     private short colorTwo;
     private short colorThree;
 
-    public TriFill(int colorOne, int colorTwo, int colorThree) {
-        this.colorOne = (short) colorOne;
-        this.colorTwo = (short) colorTwo;
-        this.colorThree = (short) colorThree;
+    public TriFill(FillColor colorOne, FillColor colorTwo, FillColor colorThree) {
+        this.colorOne = colorOne.getShort();
+        this.colorTwo = colorTwo.getShort();
+        this.colorThree = colorThree.getShort();
     }
 
     @Override

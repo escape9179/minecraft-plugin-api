@@ -15,9 +15,9 @@ public class BiFill implements Filler {
     private short colorOne;
     private short colorTwo;
 
-    public BiFill(int colorOne, int colorTwo) {
-        this.colorOne = (short) colorOne;
-        this.colorTwo = (short) colorTwo;
+    public BiFill(FillColor colorOne, FillColor colorTwo) {
+        this.colorOne = colorOne.getShort();
+        this.colorTwo = colorTwo.getShort();
     }
 
     @Override

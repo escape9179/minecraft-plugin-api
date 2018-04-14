@@ -3,7 +3,6 @@ package logan.guiapi.fill;
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
 import logan.guiapi.MenuItemBuilder;
-import logan.guiapi.MenuItemClickEvent;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
@@ -15,8 +14,8 @@ public class UniFill implements Filler {
 
     private short color;
     
-    public UniFill(int color) {
-        this.color = (short) color;
+    public UniFill(FillColor color) {
+        this.color = color.getShort();
     }
     
     @Override
