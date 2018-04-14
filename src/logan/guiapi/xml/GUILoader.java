@@ -34,13 +34,19 @@ public class GUILoader {
     private static final String ID_ATTRIBUTE = "id";
 
     private Class<?> clazz;
+    private String path;
     
-    public GUILoader(Class<?> clazz) {
+    public GUILoader(Class<?> clazz, String path) {
         this.clazz = clazz;
+        this.path = path;
     }
     
-    public MenuItem loadItemFromXML(String id, String path) {
-        XMLStreamReader reader = setupStream(path);
+    public void setPath(String path) {
+        this.path = path;
+    }
+    
+    public MenuItem loadItemFromXML(String id) {
+        XMLStreamReader reader = setupStream();
         MenuItem menuItem = null;
 
         try {
@@ -74,8 +80,8 @@ public class GUILoader {
         return menuItem;
     }
 
-    public Menu loadMenuFromXML(String id, String path) {
-        XMLStreamReader reader = setupStream(path);
+    public Menu loadMenuFromXML(String id) {
+        XMLStreamReader reader = setupStream();
         Menu menu = null;
 
         try {
@@ -109,7 +115,7 @@ public class GUILoader {
         return menu;
     }
 
-    private XMLStreamReader setupStream(String path) {
+    private XMLStreamReader setupStream() {
         InputStream stream = clazz.getResourceAsStream(path);
         XMLStreamReader reader;
         try {
