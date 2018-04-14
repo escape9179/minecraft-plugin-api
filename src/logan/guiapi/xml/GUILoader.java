@@ -194,12 +194,20 @@ public class GUILoader {
                 case "magic":
                     builder.setMagic(Boolean.parseBoolean(value));
                     break;
-                case "flags":
+                case "flags": {
                     String[] parts = value.split(",");
                     Stream<ItemFlag> flagStream = Arrays.stream(parts).map(ItemFlag::valueOf);
                     List<ItemFlag> flagList = flagStream.collect(Collectors.toList());
                     builder.addItemFlags(flagList);
-                    break;
+                }
+                break;
+                case "lore": {
+                    String[] parts = value.split(",");
+                    Stream<String> partStream = Arrays.stream(parts).map(String::trim);
+                    List<String> partList = partStream.collect(Collectors.toList());
+                    builder.setLore(partList);
+                }
+                break;
                 default:
             }
         }

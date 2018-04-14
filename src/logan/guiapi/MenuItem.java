@@ -9,12 +9,11 @@ import org.bukkit.inventory.ItemStack;
 public final class MenuItem implements MenuItemClickListener {
 
     private MenuItemClickListener listener;
-    private final ItemStack itemStack;
+    private ItemStack itemStack;
     private String name;
 
     MenuItem(ItemStack itemStack) {
         this.itemStack = itemStack;
-        this.listener = listener;
         name = itemStack.getItemMeta().getDisplayName();
     }
 
