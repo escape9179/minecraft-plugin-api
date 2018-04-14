@@ -183,7 +183,7 @@ public class GUILoader {
                     builder.clearName();
                     break;
                 case "name":
-                    builder.setName(ChatColor.translateAlternateColorCodes('&', value));
+                    builder.setName(ChatColor.translateAlternateColorCodes('^', value));
                     break;
                 case "amount":
                     builder.setAmount(Integer.parseInt(value));

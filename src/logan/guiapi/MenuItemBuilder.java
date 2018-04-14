@@ -86,10 +86,7 @@ public final class MenuItemBuilder {
 
     public final MenuItemBuilder setLore(ChatColor color, String... lore) {
         // append chat color to beginning of each line of lore
-        List<String> loreList = Arrays.stream(lore)
-                .map(s -> color + s)
-                .collect(Collectors.toList());
-        setLore(loreList);
+        setLore(color, Arrays.asList(lore));
         return this;
     }
 
@@ -97,12 +94,19 @@ public final class MenuItemBuilder {
         setLore(Arrays.asList(lore));
         return this;
     }
+    
+    public final MenuItemBuilder setLore(ChatColor color, List<String> lore) {
+        setMetaProperty(m -> {
+          m.setLore(lore.stream()
+                  .map(l -> color + l)
+                  .collect(Collectors.toList()));
+          return m;
+        });
+        return this;    
+    }
 
     public final MenuItemBuilder setLore(List<String> lore) {
-        setMetaProperty(m -> {
-            m.setLore(lore);
-            return m;
-        });
+        setLore(ChatColor.WHITE, lore);
         return this;
     }
 
