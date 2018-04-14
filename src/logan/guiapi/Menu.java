@@ -23,14 +23,13 @@ public class Menu implements Listener {
 
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
-    public Menu(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public Menu() {
+        Main.registerEvents(this);
         inventory = Bukkit.createInventory(null, 9);
     }
 
     public Menu(JavaPlugin plugin, String title, int rows) {
-        this(plugin);
-
+        this();
         this.title = title;
         slots = rows * 9;
         inventory = Bukkit.createInventory(null, slots, title);

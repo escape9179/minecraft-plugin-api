@@ -85,7 +85,6 @@ public final class MenuItemBuilder {
     }
 
     public final MenuItemBuilder setLore(ChatColor color, String... lore) {
-        // append chat color to beginning of each line of lore
         setLore(color, Arrays.asList(lore));
         return this;
     }

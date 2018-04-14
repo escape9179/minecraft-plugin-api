@@ -3,7 +3,6 @@ package logan.guiapi.fill;
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
 import logan.guiapi.MenuItemBuilder;
-import logan.guiapi.MenuItemClickEvent;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 

@@ -21,7 +21,6 @@ import logan.guiapi.fill.UniFill;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
@@ -33,8 +32,14 @@ public class GUILoader {
     private static final String ITEM_ELEMENT = "item";
     private static final String ID_ATTRIBUTE = "id";
 
-    public static MenuItem loadItemFromXML(JavaPlugin plugin, String id, String path) {
-        XMLStreamReader reader = setupStream(plugin, path);
+    private Class<?> clazz;
+    
+    public GUILoader(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+    
+    public MenuItem loadItemFromXML(String id, String path) {
+        XMLStreamReader reader = setupStream(path);
         MenuItem menuItem = null;
 
         try {
@@ -68,8 +73,8 @@ public class GUILoader {
         return menuItem;
     }
 
-    public static Menu loadMenuFromXML(JavaPlugin plugin, String id, String path) {
-        XMLStreamReader reader = setupStream(plugin, path);
+    public Menu loadMenuFromXML(String id, String path) {
+        XMLStreamReader reader = setupStream(path);
         Menu menu = null;
 
         try {
@@ -89,7 +94,7 @@ public class GUILoader {
                         continue;
                     }
 
-                    menu = parseXMLMenuAttributes(plugin, reader, count);
+                    menu = parseXMLMenuAttributes(reader, count);
                 }
             }
 
@@ -103,9 +108,8 @@ public class GUILoader {
         return menu;
     }
 
-    private static XMLStreamReader setupStream(JavaPlugin plugin, String path) {
-        InputStream stream = plugin.getClass().getResourceAsStream(path);
-
+    private XMLStreamReader setupStream(String path) {
+        InputStream stream = clazz.getResourceAsStream(path);
         XMLStreamReader reader;
         try {
             XMLInputFactory factory = XMLInputFactory.newFactory();
@@ -118,8 +122,8 @@ public class GUILoader {
         return reader;
     }
 
-    private static Menu parseXMLMenuAttributes(JavaPlugin plugin, XMLStreamReader reader, int count) {
-        Menu menu = new Menu(plugin);
+    private Menu parseXMLMenuAttributes(XMLStreamReader reader, int count) {
+        Menu menu = new Menu();
 
         for (int i = 0; i < count; i++) {
 
@@ -167,7 +171,7 @@ public class GUILoader {
         return menu;
     }
 
-    private static MenuItem parseXMLItemAttributes(XMLStreamReader reader, int count) {
+    private MenuItem parseXMLItemAttributes(XMLStreamReader reader, int count) {
         MenuItemBuilder builder = new MenuItemBuilder();
 
         for (int i = 0; i < count; i++) {
@@ -215,7 +219,7 @@ public class GUILoader {
         return builder.build();
     }
 
-    private static Attribute getAttribute(XMLStreamReader reader, String name) {
+    private Attribute getAttribute(XMLStreamReader reader, String name) {
         int count = reader.getAttributeCount();
         XMLEventFactory eventFactory = XMLEventFactory.newFactory();
 
