@@ -27,9 +27,9 @@ menu.addItem(0, menuItem);
 </root>
 ```
 ```
-// Paths are relative to the class extending JavaPlugin
-MenuItem menuItem = GUILoader.loadItemFromXML(this, "wool", "menu.xml");
-Menu menu = GUILoader.loadMenuFromXML(this, "menu", "menu.xml");
+GUILoader loader = new GUILoader(getClass());
+MenuItem menuItem = loader.loadItemFromXML("wool", "/menu.xml"); // '/' indicates same directory as plugin.yml
+Menu menu = loader.loadMenuFromXML("menu", "/menu.xml");
         
 menuItem.addListener(e -> e.getPlayer().sendMessage("Clicked!"));
 menu.addItem(0, menuItem);
