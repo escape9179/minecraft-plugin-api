@@ -45,11 +45,6 @@ public class Menu implements Listener {
         inventory = Bukkit.createInventory(null, slots, title);
     }
 
-    public void setSlots(int slots) {
-        this.slots = slots;
-        inventory = Bukkit.createInventory(null, slots, title);
-    }
-
     public void setRows(int rows) {
         this.slots = rows * 9;
         inventory = Bukkit.createInventory(null, slots, title);
