@@ -21,7 +21,7 @@ menu.addItem(0, menuItem);
 ```
 <root>
     <menu id="menu" title="My Menu" rows="1">
-        <item id="wool" material="wool" durability="1" magic="true"
+        <item id="wool" name="^6Hello World!" material="wool" durability="1" magic="true"
               lore="Lorem ipsum dolor sit amet,consectetur adipiscing elit"></item>
     </menu>
 </root>
