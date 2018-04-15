@@ -2,9 +2,7 @@ package logan.guiapi.fill;
 
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
-import logan.guiapi.MenuItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
 
 /**
  *
@@ -13,25 +11,22 @@ import org.bukkit.inventory.Inventory;
 public class UniFill implements Filler {
 
     private short color;
-    
+
     public UniFill(FillColor color) {
         this.color = color.getShort();
     }
-    
+
     @Override
     public void fill(Menu menu) {
-        Inventory inventory = menu.getInventory();
-        for(int i = 0; i < inventory.getSize(); i++) {
-            
-            MenuItemBuilder builder = new MenuItemBuilder();
-            builder.setMaterial(Material.STAINED_GLASS_PANE);
-            builder.clearName();
-            builder.setDurability(color);
-            
-            MenuItem menuItem = builder.build();
+        for (int i = 0; i < menu.getSlots(); i++) {
+            MenuItem menuItem = new MenuItem()
+                    .setMaterial(Material.STAINED_GLASS_PANE)
+                    .clearName()
+                    .setDurability(color);
+
             menu.addItem(i, menuItem);
-            
+
         }
     }
-    
+
 }

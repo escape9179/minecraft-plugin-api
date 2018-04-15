@@ -2,7 +2,6 @@ package logan.guiapi;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -10,18 +9,18 @@ import org.bukkit.inventory.ItemStack;
  */
 public class MenuItemClickEvent {
     
-    private ItemStack itemStack;
     private Player player;
+    private MenuItem menuItem;
     private InventoryClickEvent clickEvent;
     
     public MenuItemClickEvent(InventoryClickEvent event) {
-        clickEvent = event;
-        this.itemStack = event.getCurrentItem();
         this.player = (Player) event.getWhoClicked();
+        this.menuItem = new MenuItem(event.getCurrentItem());
+        clickEvent = event;
     }
     
-    public ItemStack getItemStack() {
-        return itemStack;
+    public MenuItem getMenuItem() {
+        return menuItem;
     }
     
     public Player getPlayer() {

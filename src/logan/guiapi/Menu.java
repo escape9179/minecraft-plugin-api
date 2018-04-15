@@ -1,8 +1,11 @@
 package logan.guiapi;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import logan.guiapi.fill.Filler;
+import logan.guiapi.util.PlaceholderParser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,29 +28,38 @@ public class Menu implements Listener {
 
     public Menu() {
         Main.registerEvents(this);
-        inventory = Bukkit.createInventory(null, 9);
     }
 
     public Menu(JavaPlugin plugin, String title, int rows) {
         this();
         this.title = title;
         slots = rows * 9;
-        inventory = Bukkit.createInventory(null, slots, title);
     }
 
     public void show(Player player) {
+        parsePlaceholders(player);
+        inventory = Bukkit.createInventory(null, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
         player.openInventory(inventory);
     }
 
+    private void parsePlaceholders(Player player) {
+        title = PlaceholderParser.parse(title, player);
+        menuItems.forEach((s, mi) -> mi.setName(PlaceholderParser.parse(mi.getName(), player)));
+        menuItems.forEach((s, mi) -> {
+            List<String> lore = mi.getLore().stream()
+                    .map(l -> PlaceholderParser.parse(l, player))
+                    .collect(Collectors.toList());
+            mi.setLore(lore);
+        });
+    }
+
     public void setTitle(String title) {
         this.title = title;
-        inventory = Bukkit.createInventory(null, slots, title);
     }
 
     public void setRows(int rows) {
         this.slots = rows * 9;
-        inventory = Bukkit.createInventory(null, slots, title);
     }
 
     public void fill(Filler fillPattern) {
@@ -70,22 +82,26 @@ public class Menu implements Listener {
         return inventory;
     }
 
+    public int getSlots() {
+        return slots;
+    }
+
     public int getTopLeft() {
         return 0;
     }
-    
+
     public int getTopRight() {
         return 8;
     }
-    
+
     public int getBottomLeft() {
         return inventory.getSize() - 9;
     }
-    
+
     public int getBottomRight() {
         return inventory.getSize() - 1;
     }
-    
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 

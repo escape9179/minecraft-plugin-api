@@ -2,9 +2,7 @@ package logan.guiapi.fill;
 
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
-import logan.guiapi.MenuItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
 
 /**
  *
@@ -26,26 +24,24 @@ public class QuadFill implements Filler {
 
     @Override
     public void fill(Menu menu) {
-        Inventory inventory = menu.getInventory();
-
         int counter = 0;
-        for (int i = counter; i < inventory.getSize(); i++) {
-            MenuItemBuilder builder = new MenuItemBuilder();
-            builder.setMaterial(Material.STAINED_GLASS_PANE);
-            builder.clearName();
+        for (int i = counter; i < menu.getSlots(); i++) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setMaterial(Material.STAINED_GLASS_PANE);
+            menuItem.clearName();
 
             switch (counter) {
                 case 0:
-                    builder.setDurability(colorOne);
+                    menuItem.setDurability(colorOne);
                     break;
                 case 1:
-                    builder.setDurability(colorTwo);
+                    menuItem.setDurability(colorTwo);
                     break;
                 case 2:
-                    builder.setDurability(colorThree);
+                    menuItem.setDurability(colorThree);
                     break;
                 case 3:
-                    builder.setDurability(colorFour);
+                    menuItem.setDurability(colorFour);
                     break;
                 default:
                     counter = 0;
@@ -53,7 +49,6 @@ public class QuadFill implements Filler {
 
             counter++;
             
-            MenuItem menuItem = builder.build();
             menu.addItem(i, menuItem);
         }
     }

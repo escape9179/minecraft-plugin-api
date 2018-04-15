@@ -1,10 +1,11 @@
-package logan.guiapi.xml;
+package logan.guiapi.util;
 
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.scene.control.MenuItemBuilder;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -13,7 +14,6 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.Attribute;
 import logan.guiapi.Menu;
 import logan.guiapi.MenuItem;
-import logan.guiapi.MenuItemBuilder;
 import logan.guiapi.fill.BiFill;
 import logan.guiapi.fill.FillColor;
 import logan.guiapi.fill.QuadFill;
@@ -179,7 +179,7 @@ public class GUILoader {
     }
 
     private MenuItem parseXMLItemAttributes(XMLStreamReader reader, int count) {
-        MenuItemBuilder builder = new MenuItemBuilder();
+        MenuItem menuItem = new MenuItem();
 
         for (int i = 0; i < count; i++) {
 
@@ -188,42 +188,42 @@ public class GUILoader {
 
             switch (name) {
                 case "material":
-                    builder.setMaterial(Material.getMaterial(value.toUpperCase()));
+                    menuItem.setMaterial(Material.getMaterial(value.toUpperCase()));
                     break;
                 case "clearName":
-                    builder.clearName();
+                    menuItem.clearName();
                     break;
                 case "name":
-                    builder.setName(ChatColor.translateAlternateColorCodes('^', value));
+                    menuItem.setName(ChatColor.translateAlternateColorCodes('^', value));
                     break;
                 case "amount":
-                    builder.setAmount(Integer.parseInt(value));
+                    menuItem.setAmount(Integer.parseInt(value));
                     break;
                 case "durability":
-                    builder.setDurability(Short.parseShort(value));
+                    menuItem.setDurability(Short.parseShort(value));
                     break;
                 case "magic":
-                    builder.setMagic(Boolean.parseBoolean(value));
+                    menuItem.setMagic(Boolean.parseBoolean(value));
                     break;
                 case "flags": {
                     String[] parts = value.split(",");
                     Stream<ItemFlag> flagStream = Arrays.stream(parts).map(ItemFlag::valueOf);
                     List<ItemFlag> flagList = flagStream.collect(Collectors.toList());
-                    builder.addItemFlags(flagList);
+                    menuItem.addItemFlags(flagList);
                 }
                 break;
                 case "lore": {
                     String[] parts = value.split(",");
                     Stream<String> partStream = Arrays.stream(parts).map(String::trim);
                     List<String> partList = partStream.collect(Collectors.toList());
-                    builder.setLore(partList);
+                    menuItem.setLore(partList);
                 }
                 break;
                 default:
             }
         }
 
-        return builder.build();
+        return menuItem;
     }
 
     private Attribute getAttribute(XMLStreamReader reader, String name) {
@@ -239,6 +239,6 @@ public class GUILoader {
         }
 
         return null;
-    }
+    } 
 
 }
