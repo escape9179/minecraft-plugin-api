@@ -3,9 +3,9 @@ package logan.guiapi.util;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javafx.scene.control.MenuItemBuilder;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -35,16 +35,16 @@ public class GUILoader {
 
     private Class<?> clazz;
     private String path;
-    
+
     public GUILoader(Class<?> clazz, String path) {
         this.clazz = clazz;
         this.path = path;
     }
-    
+
     public void setPath(String path) {
         this.path = path;
     }
-    
+
     public MenuItem loadItemFromXML(String id) {
         XMLStreamReader reader = setupStream();
         MenuItem menuItem = null;
@@ -179,7 +179,7 @@ public class GUILoader {
     }
 
     private MenuItem parseXMLItemAttributes(XMLStreamReader reader, int count) {
-        MenuItem menuItem = new MenuItem();
+        MenuItem menuItem = new MenuItem("");
 
         for (int i = 0; i < count; i++) {
 
@@ -208,7 +208,7 @@ public class GUILoader {
                 case "flags": {
                     String[] parts = value.split(",");
                     Stream<ItemFlag> flagStream = Arrays.stream(parts).map(ItemFlag::valueOf);
-                    List<ItemFlag> flagList = flagStream.collect(Collectors.toList());
+                    Set<ItemFlag> flagList = flagStream.collect(Collectors.toSet());
                     menuItem.addItemFlags(flagList);
                 }
                 break;
@@ -239,6 +239,6 @@ public class GUILoader {
         }
 
         return null;
-    } 
+    }
 
 }

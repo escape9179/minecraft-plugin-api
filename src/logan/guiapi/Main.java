@@ -1,5 +1,6 @@
 package logan.guiapi;
 
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,10 @@ public class Main extends JavaPlugin {
         plugin.getServer()
                 .getPluginManager()
                 .registerEvents(listener, plugin);
+    }
+    
+    public static void unregisterEvents(Listener listener) {
+        HandlerList.unregisterAll(listener);
     }
     
     public static JavaPlugin getPlugin() {

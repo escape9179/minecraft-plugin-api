@@ -19,9 +19,8 @@ public class UniFill implements Filler {
     @Override
     public void fill(Menu menu) {
         for (int i = 0; i < menu.getSlots(); i++) {
-            MenuItem menuItem = new MenuItem()
+            MenuItem menuItem = new MenuItem("")
                     .setMaterial(Material.STAINED_GLASS_PANE)
-                    .clearName()
                     .setDurability(color);
 
             menu.addItem(i, menuItem);

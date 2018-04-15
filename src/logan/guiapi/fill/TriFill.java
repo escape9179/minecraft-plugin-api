@@ -24,9 +24,8 @@ public class TriFill implements Filler {
     public void fill(Menu menu) {
         int counter = 0;
         for (int i = counter; i < menu.getSlots(); i++) {
-            MenuItem menuItem = new MenuItem();
-            menuItem.setMaterial(Material.STAINED_GLASS_PANE);
-            menuItem.clearName();
+            MenuItem menuItem = new MenuItem("")
+                    .setMaterial(Material.STAINED_GLASS_PANE);
 
             switch (counter) {
                 case 0:
@@ -43,7 +42,7 @@ public class TriFill implements Filler {
             }
 
             counter++;
-            
+
             menu.addItem(i, menuItem);
         }
     }

@@ -23,8 +23,9 @@ public final class MenuItem implements MenuItemClickListener {
     private MenuItemClickListener listener;
     private ItemStack itemStack;
 
-    public MenuItem() {
+    public MenuItem(String name) {
         itemStack = new ItemStack(Material.DIRT);
+        setName(name);
     }
     
     public MenuItem(ItemStack itemStack) {
@@ -64,7 +65,7 @@ public final class MenuItem implements MenuItemClickListener {
         return this;
     }
 
-    public final MenuItem addItemFlags(List<ItemFlag> flags) {
+    public final MenuItem addItemFlags(Set<ItemFlag> flags) {
         ItemFlag[] flagArray = new ItemFlag[flags.size()];
         addItemFlags(flags.toArray(flagArray));
         return this;
@@ -92,6 +93,14 @@ public final class MenuItem implements MenuItemClickListener {
         return this;
     }
 
+    public final MenuItem addEnchantments(Map<Enchantment, Integer> enchantments) {
+        setMetaProperty(m -> {
+            enchantments.forEach((e, l) -> m.addEnchant(e, l, true));
+            return m;
+        });
+        return this;
+    }
+    
     public final MenuItem setLore(ChatColor color, String... lore) {
         setLore(color, Arrays.asList(lore));
         return this;
@@ -159,6 +168,10 @@ public final class MenuItem implements MenuItemClickListener {
     
     public void addListener(MenuItemClickListener listener) {
         this.listener = listener;
+    }
+    
+    public MenuItemClickListener getListener() {
+        return listener;
     }
     
     @Override

@@ -12,13 +12,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  *
  * @author Tre Logan
  */
-public class Menu implements Listener {
+public class Menu implements Listener, Cloneable {
+
+    private static boolean registered;
 
     private String title;
     private Inventory inventory;
@@ -27,10 +28,13 @@ public class Menu implements Listener {
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
     public Menu() {
-        Main.registerEvents(this);
+        if (!registered) {
+            Main.registerEvents(this);
+        }
+        registered = true;
     }
 
-    public Menu(JavaPlugin plugin, String title, int rows) {
+    public Menu(String title, int rows) {
         this();
         this.title = title;
         slots = rows * 9;
@@ -45,8 +49,8 @@ public class Menu implements Listener {
 
     private void parsePlaceholders(Player player) {
         title = PlaceholderParser.parse(title, player);
-        menuItems.forEach((s, mi) -> mi.setName(PlaceholderParser.parse(mi.getName(), player)));
         menuItems.forEach((s, mi) -> {
+            mi.setName(PlaceholderParser.parse(mi.getName(), player));
             List<String> lore = mi.getLore().stream()
                     .map(l -> PlaceholderParser.parse(l, player))
                     .collect(Collectors.toList());
