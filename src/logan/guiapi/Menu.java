@@ -35,10 +35,13 @@ public class Menu implements Listener {
         parsePlaceholders(player);
         
         /* Create inventory and add items */
-        inventory = Bukkit.createInventory(null, slots, title);
+        inventory = Bukkit.createInventory(player, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
         
-        Main.addMenuListener(title, this);
+        /* Create semi-unique id for this menu */
+        String id = title + player.getName();
+        Main.addMenuListener(id, this);
+        
         player.openInventory(inventory);
     }
 
@@ -50,7 +53,6 @@ public class Menu implements Listener {
             Stream<String> stream = lore.stream().map(l -> PlaceholderParser.parse(l, player));
             lore = stream.collect(Collectors.toList());
             mi.setLore(lore);
-            
         });
     }
 
