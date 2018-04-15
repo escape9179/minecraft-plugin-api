@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import logan.guiapi.fill.Filler;
 import logan.guiapi.util.PlaceholderParser;
 import org.bukkit.Bukkit;
@@ -17,9 +18,7 @@ import org.bukkit.inventory.Inventory;
  *
  * @author Tre Logan
  */
-public class Menu implements Listener, Cloneable {
-
-    private static boolean registered;
+public class Menu implements Listener {
 
     private String title;
     private Inventory inventory;
@@ -27,23 +26,19 @@ public class Menu implements Listener, Cloneable {
 
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
-    public Menu() {
-        if (!registered) {
-            Main.registerEvents(this);
-        }
-        registered = true;
-    }
-
     public Menu(String title, int rows) {
-        this();
         this.title = title;
         slots = rows * 9;
     }
 
     public void show(Player player) {
         parsePlaceholders(player);
+        
+        /* Create inventory and add items */
         inventory = Bukkit.createInventory(null, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
+        
+        Main.addMenuListener(title, this);
         player.openInventory(inventory);
     }
 
@@ -51,10 +46,11 @@ public class Menu implements Listener, Cloneable {
         title = PlaceholderParser.parse(title, player);
         menuItems.forEach((s, mi) -> {
             mi.setName(PlaceholderParser.parse(mi.getName(), player));
-            List<String> lore = mi.getLore().stream()
-                    .map(l -> PlaceholderParser.parse(l, player))
-                    .collect(Collectors.toList());
+            List<String> lore = mi.getLore();
+            Stream<String> stream = lore.stream().map(l -> PlaceholderParser.parse(l, player));
+            lore = stream.collect(Collectors.toList());
             mi.setLore(lore);
+            
         });
     }
 
@@ -78,6 +74,10 @@ public class Menu implements Listener, Cloneable {
         menuItems.remove(slot);
     }
 
+    public Map<Integer, MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -99,16 +99,15 @@ public class Menu implements Listener, Cloneable {
     }
 
     public int getBottomLeft() {
-        return inventory.getSize() - 9;
+        return slots - 9;
     }
 
     public int getBottomRight() {
-        return inventory.getSize() - 1;
+        return slots - 1;
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-
+    public synchronized void onInventoryClick(InventoryClickEvent event) {
         String invName = event.getInventory().getTitle();
 
         if (!invName.equals(title)) {
@@ -119,7 +118,6 @@ public class Menu implements Listener, Cloneable {
         menuItems.keySet().stream()
                 .filter(s -> s == event.getSlot())
                 .forEach(s -> menuItems.get(s).onClick(new MenuItemClickEvent(event)));
-
     }
 
 }

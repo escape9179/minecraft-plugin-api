@@ -130,7 +130,7 @@ public class GUILoader {
     }
 
     private Menu parseXMLMenuAttributes(XMLStreamReader reader, int count) {
-        Menu menu = new Menu();
+        Menu menu = new Menu("", 6);
 
         for (int i = 0; i < count; i++) {
 
@@ -139,7 +139,7 @@ public class GUILoader {
 
             switch (name) {
                 case "title":
-                    menu.setTitle(value);
+                    menu.setTitle(ChatColor.translateAlternateColorCodes('^', value));
                     break;
                 case "rows":
                     menu.setRows(Integer.parseInt(value));
@@ -214,7 +214,9 @@ public class GUILoader {
                 break;
                 case "lore": {
                     String[] parts = value.split(",");
-                    Stream<String> partStream = Arrays.stream(parts).map(String::trim);
+                    Stream<String> partStream = Arrays.stream(parts)
+                            .map(String::trim)
+                            .map(s -> ChatColor.translateAlternateColorCodes('^', s));
                     List<String> partList = partStream.collect(Collectors.toList());
                     menuItem.setLore(partList);
                 }
