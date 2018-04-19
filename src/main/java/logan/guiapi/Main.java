@@ -35,10 +35,6 @@ public class Main extends JavaPlugin {
         
     }
     
-    public static void removeMenuListener(String id) {
-        menuListeners.remove(id);
-    }
-    
     public static JavaPlugin getPlugin() {
         return plugin;
     }
