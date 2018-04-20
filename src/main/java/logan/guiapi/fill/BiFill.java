@@ -1,8 +1,6 @@
 package logan.guiapi.fill;
 
 import logan.guiapi.Menu;
-import logan.guiapi.MenuItem;
-import org.bukkit.Material;
 
 /**
  *
@@ -10,23 +8,23 @@ import org.bukkit.Material;
  */
 public class BiFill implements Filler {
 
-    private short colorOne;
-    private short colorTwo;
+    private FillColor colorOne;
+    private FillColor colorTwo;
 
     public BiFill(FillColor colorOne, FillColor colorTwo) {
-        this.colorOne = colorOne.getShort();
-        this.colorTwo = colorTwo.getShort();
+        this.colorOne = colorOne;
+        this.colorTwo = colorTwo;
     }
 
     @Override
     public void fill(Menu menu) {
-        for (int i = 0; i < menu.getSlots(); i++) {
-            MenuItem menuItem = new MenuItem("")
-                    .setMaterial(Material.STAINED_GLASS_PANE)
-                    .setDurability((i % 2) == 0 ? colorOne : colorTwo);
 
-            menu.addItem(i, menuItem);
-        }
+        FillPlacer fillPlacer = new FillPlacer(colorOne);
+        fillPlacer.placeIntermittently(0, 2, menu);
+
+        fillPlacer.setFill(colorTwo);
+        fillPlacer.placeIntermittently(1, 2, menu);
+
     }
 
 }
