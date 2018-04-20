@@ -1,8 +1,6 @@
 package logan.guiapi.fill;
 
 import logan.guiapi.Menu;
-import logan.guiapi.MenuItem;
-import org.bukkit.Material;
 
 /**
  *
@@ -10,22 +8,18 @@ import org.bukkit.Material;
  */
 public class UniFill implements Filler {
 
-    private short color;
+    private FillColor color;
 
     public UniFill(FillColor color) {
-        this.color = color.getShort();
+        this.color = color;
     }
 
     @Override
     public void fill(Menu menu) {
-        for (int i = 0; i < menu.getSlots(); i++) {
-            MenuItem menuItem = new MenuItem("")
-                    .setMaterial(Material.STAINED_GLASS_PANE)
-                    .setDurability(color);
 
-            menu.addItem(i, menuItem);
+        FillPlacer fillPlacer = new FillPlacer(color);
+        fillPlacer.placeIntermittently(0, 1, menu);
 
-        }
     }
 
 }

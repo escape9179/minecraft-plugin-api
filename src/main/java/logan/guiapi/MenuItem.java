@@ -24,9 +24,13 @@ public final class MenuItem implements MenuItemClickListener {
     private MenuItemClickListener listener;
     private ItemStack itemStack;
 
-    public MenuItem(String name) {
-        itemStack = new ItemStack(Material.DIRT);
+    public MenuItem(String name, ItemStack itemStack) {
+        this.itemStack = itemStack;
         setName(name);
+    }
+
+    public MenuItem(String name) {
+        this(name, new ItemStack(Material.DIRT));
     }
     
     public MenuItem(ItemStack itemStack) {
@@ -134,19 +138,19 @@ public final class MenuItem implements MenuItemClickListener {
     public String getName() {
         return getMetaProperty(ItemMeta::getDisplayName);
     }
-    
+
     public Material getMaterial() {
         return itemStack.getType();
     }
-    
+
     public int getAmount() {
         return itemStack.getAmount();
     }
-    
+
     public short getDurability() {
         return itemStack.getDurability();
     }
-    
+
     public List<String> getLore() {
         return getMetaProperty(m -> (m.hasLore()) ? m.getLore() : Lists.newArrayList());
     }
@@ -167,8 +171,9 @@ public final class MenuItem implements MenuItemClickListener {
         return function.apply(itemStack.getItemMeta());
     }
     
-    public void addListener(MenuItemClickListener listener) {
+    public MenuItem addListener(MenuItemClickListener listener) {
         this.listener = listener;
+        return this;
     }
     
     public MenuItemClickListener getListener() {

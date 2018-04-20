@@ -1,8 +1,6 @@
 package logan.guiapi.fill;
 
 import logan.guiapi.Menu;
-import logan.guiapi.MenuItem;
-import org.bukkit.Material;
 
 /**
  *
@@ -10,41 +8,28 @@ import org.bukkit.Material;
  */
 public class TriFill implements Filler {
 
-    private short colorOne;
-    private short colorTwo;
-    private short colorThree;
+    private FillColor colorOne;
+    private FillColor colorTwo;
+    private FillColor colorThree;
 
     public TriFill(FillColor colorOne, FillColor colorTwo, FillColor colorThree) {
-        this.colorOne = colorOne.getShort();
-        this.colorTwo = colorTwo.getShort();
-        this.colorThree = colorThree.getShort();
+        this.colorOne = colorOne;
+        this.colorTwo = colorTwo;
+        this.colorThree = colorThree;
     }
 
     @Override
     public void fill(Menu menu) {
-        int counter = 0;
-        for (int i = counter; i < menu.getSlots(); i++) {
-            MenuItem menuItem = new MenuItem("")
-                    .setMaterial(Material.STAINED_GLASS_PANE);
 
-            switch (counter) {
-                case 0:
-                    menuItem.setDurability(colorOne);
-                    break;
-                case 1:
-                    menuItem.setDurability(colorTwo);
-                    break;
-                case 2:
-                    menuItem.setDurability(colorThree);
-                    break;
-                default:
-                    counter = 0;
-            }
+        FillPlacer fillPlacer = new FillPlacer(colorOne);
+        fillPlacer.placeIntermittently(0, 3, menu);
 
-            counter++;
+        fillPlacer.setFill(colorTwo);
+        fillPlacer.placeIntermittently(1, 3, menu);
 
-            menu.addItem(i, menuItem);
-        }
+        fillPlacer.setFill(colorThree);
+        fillPlacer.placeIntermittently(2, 3, menu);
+
     }
 
 }

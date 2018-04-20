@@ -35,10 +35,6 @@ public class Main extends JavaPlugin {
         
     }
     
-    public static JavaPlugin getPlugin() {
-        return plugin;
-    }
-    
     private static void registerListener(Listener listener) {
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
