@@ -41,7 +41,7 @@ public class Menu implements Listener {
         
         /* Create semi-unique id for this menu */
         String id = title + player.getName();
-        Main.addMenuListener(id, this);
+        GUIAPI.addMenuListener(id, this);
         
         player.openInventory(inventory);
     }

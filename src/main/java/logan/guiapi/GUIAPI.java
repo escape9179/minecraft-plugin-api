@@ -1,5 +1,6 @@
 package logan.guiapi;
 
+import logan.guiapi.util.PlaceholderManager;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,11 +11,12 @@ import java.util.Map;
  *
  * @author Tre Logan
  */
-public class Main extends JavaPlugin {
+public class GUIAPI extends JavaPlugin {
     
     private static JavaPlugin plugin;
     
     private static Map<String, Listener> menuListeners = new HashMap<>();
+    private static PlaceholderManager placeholderManager = new PlaceholderManager();
     
     @Override
     public void onEnable() {
@@ -38,5 +40,9 @@ public class Main extends JavaPlugin {
     private static void registerListener(Listener listener) {
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
-    
+
+    public static PlaceholderManager getPlaceholderManager() {
+        return placeholderManager;
+    }
+
 }

@@ -1,9 +1,9 @@
 package logan.guiapi.util;
 
-import org.bukkit.Bukkit;
+import logan.guiapi.GUIAPI;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -12,29 +12,20 @@ import java.util.function.Function;
  */
 public class PlaceholderParser {
     
-    public static final String PLAYER_NAME = "%player_name%";
-    public static final String PLAYER_COUNT = "%player_count%";
-    
-    private static Function<Player, String> nameFun;
-    private static Function<Collection<? extends Player>, String> countFun;
-    
-    static {
-        nameFun = Player::getName;
-        countFun = (coll) -> String.valueOf(coll.size());
-    }
-    
     public static String parse(String str, Player player) {
-        
-        if (str == null) {
-            return str;
-        }
-        
-        if (str.contains(PLAYER_NAME)) {
-            str = str.replace(PLAYER_NAME, nameFun.apply(player));
-        }
-        
-        if (str.contains(PLAYER_COUNT)) {
-            str = str.replace(PLAYER_COUNT, countFun.apply(Bukkit.getOnlinePlayers()));
+
+        PlaceholderManager placeholderManager = GUIAPI.getPlaceholderManager();
+
+        Map<String, Function<Player, String>> placeholderMap = placeholderManager.getPlaceholderMap();
+        for (String placeholder : placeholderMap.keySet()) {
+
+            if (!str.contains(placeholder)) {
+                continue;
+            }
+
+            Function<Player, String> function = placeholderMap.get(placeholder);
+            str = str.replace(placeholder, function.apply(player));
+
         }
         
         return str;
