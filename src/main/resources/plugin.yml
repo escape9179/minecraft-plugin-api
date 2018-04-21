@@ -1,4 +1,4 @@
 name: GUIAPI
-main: logan.guiapi.Main
+main: logan.guiapi.GUIAPI
 version: 1.1
 author: Tre
