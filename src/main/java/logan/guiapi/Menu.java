@@ -40,8 +40,7 @@ public class Menu implements Listener {
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
         
         /* Create semi-unique id for this menu */
-        String id = title + player.getName();
-        GUIAPI.addMenuListener(id, this);
+        GUIAPI.addMenuListener(title, this);
         
         player.openInventory(inventory);
     }
