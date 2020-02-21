@@ -110,7 +110,7 @@ public class Menu implements Listener {
 
     @EventHandler
     public synchronized void onInventoryClick(InventoryClickEvent event) {
-        String invName = event.getInventory().getTitle();
+        String invName = event.getView().getTitle();
 
         if (!invName.equals(title)) {
             return;

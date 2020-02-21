@@ -7,14 +7,22 @@ import org.bukkit.inventory.ItemStack;
 
 public class FillPlacer {
 
-    private ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE);
+    private ItemStack itemStack;
 
-    public FillPlacer(FillColor fillColor) {
-        itemStack.setDurability(fillColor.getShort());
+    public FillPlacer(ItemStack fillItem) {
+        setFill(fillItem);
     }
 
-    public void setFill(FillColor fillColor) {
-        itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, fillColor.getShort());
+    public FillPlacer(Material material) {
+        setFill(material);
+    }
+
+    public void setFill(ItemStack fillItem) {
+        itemStack = fillItem;
+    }
+
+    public void setFill(Material material) {
+        itemStack = new ItemStack(material);
     }
 
     public void placeIntermittently(int start, int spacing, Menu menu) {
