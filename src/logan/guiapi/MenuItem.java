@@ -168,9 +168,6 @@ public final class MenuItem implements MenuItemClickListener {
     }
 
     private <T> T getMetaProperty(Function<ItemMeta, T> function) {
-        if (!itemStack.hasItemMeta()) {
-            itemStack.setItemMeta(new ItemStack(itemStack.getType()).getItemMeta());
-        }
         return function.apply(itemStack.getItemMeta());
     }
     
