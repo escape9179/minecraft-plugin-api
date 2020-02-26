@@ -1,5 +1,6 @@
 package logan.guiapi;
 
+import logan.guiapi.fill.FillPlacer;
 import logan.guiapi.fill.Filler;
 import logan.guiapi.util.PlaceholderParser;
 import org.bukkit.Bukkit;
@@ -9,9 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,13 +20,17 @@ import java.util.stream.Stream;
  */
 public class Menu implements Listener {
 
+    private final int id;
     private String title;
     private Inventory inventory;
     private int slots;
 
+    private Player viewer = null;
+
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
     public Menu(String title, int rows) {
+        id = (int) (Math.random() * 1000);
         this.title = title;
         slots = rows * 9;
     }
@@ -38,11 +41,12 @@ public class Menu implements Listener {
         /* Create inventory and add items */
         inventory = Bukkit.createInventory(player, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
-        
-        /* Create semi-unique id for this menu */
-        GUIAPI.addMenuListener(title, this);
+
+        GUIAPI.addMenuListener(id, this);
         
         player.openInventory(inventory);
+
+        viewer = player;
     }
 
     private void parsePlaceholders(Player player) {
@@ -65,11 +69,15 @@ public class Menu implements Listener {
     }
 
     public void fill(Filler fillPattern) {
-        fillPattern.fill(this);
+        this.fill(fillPattern, Collections.emptyList(), FillPlacer.FillMode.IGNORE);
     }
 
-    public void addItem(int slot, MenuItem menuItem) {
-        menuItems.put(slot, menuItem);
+    public void fill(Filler fillPattern, Collection<Integer> slots, FillPlacer.FillMode mode) {
+        fillPattern.fill(this, slots, mode);
+    }
+
+    public MenuItem addItem(int slot, MenuItem menuItem) {
+        return menuItems.put(slot, menuItem);
     }
 
     public void removeItem(int slot, MenuItem menuItem) {
@@ -110,16 +118,12 @@ public class Menu implements Listener {
 
     @EventHandler
     public synchronized void onInventoryClick(InventoryClickEvent event) {
-        String invName = event.getView().getTitle();
 
-        if (!invName.equals(title)) {
-            return;
-        }
+        if (!(viewer.getUniqueId()).equals(event.getWhoClicked().getUniqueId())) return;
 
         event.setCancelled(true);
         menuItems.keySet().stream()
                 .filter(s -> s == event.getSlot())
                 .forEach(s -> menuItems.get(s).onClick(new MenuItemClickEvent(event)));
     }
-
 }

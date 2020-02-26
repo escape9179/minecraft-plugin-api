@@ -1,6 +1,8 @@
 package logan.guiapi;
 
 import logan.guiapi.util.PlaceholderManager;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,9 +15,9 @@ import java.util.Map;
  */
 public class GUIAPI extends JavaPlugin {
     
-    private static JavaPlugin plugin;
-    
-    private static Map<String, Listener> menuListeners = new HashMap<>();
+    private static GUIAPI plugin;
+
+    private static Map<Integer, Listener> menuListeners = new HashMap<>();
     private static PlaceholderManager placeholderManager = new PlaceholderManager();
     
     @Override
@@ -28,21 +30,18 @@ public class GUIAPI extends JavaPlugin {
     public void onDisable() {
         getLogger().info(getName() + " disabled.");
     }
-    
-    public static void addMenuListener(String id, Listener listener) {
-        Listener previous = menuListeners.put(id, listener);
-        if (previous == null) {
-            registerListener(listener);
-        }
-        
+
+    public static void addMenuListener(int id, Listener listener) {
+        if (menuListeners.containsKey(id)) return;
+        menuListeners.put(id, listener);
+        registerListener(listener);
     }
     
-    private static void registerListener(Listener listener) {
+    public static void registerListener(Listener listener) {
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     public static PlaceholderManager getPlaceholderManager() {
         return placeholderManager;
     }
-
 }

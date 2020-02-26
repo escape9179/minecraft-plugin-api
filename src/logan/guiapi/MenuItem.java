@@ -25,7 +25,7 @@ public final class MenuItem implements MenuItemClickListener {
     private ItemStack itemStack;
 
     public MenuItem(String name, ItemStack itemStack) {
-        this.itemStack = itemStack;
+        this.itemStack = itemStack.clone();
         setName(name);
     }
 
