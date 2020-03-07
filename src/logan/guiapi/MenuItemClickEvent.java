@@ -15,6 +15,12 @@ public class MenuItemClickEvent {
     
     public MenuItemClickEvent(InventoryClickEvent event) {
         this.player = (Player) event.getWhoClicked();
+
+        if (event.getCurrentItem() == null) {
+            event.setCancelled(true);
+            return;
+        }
+
         this.menuItem = new MenuItem(event.getCurrentItem());
         clickEvent = event;
     }

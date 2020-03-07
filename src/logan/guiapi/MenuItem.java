@@ -135,7 +135,7 @@ public final class MenuItem implements MenuItemClickListener {
         return itemStack;
     }
 
-    public String getName() {
+    public String getDisplayName() {
         return getMetaProperty(ItemMeta::getDisplayName);
     }
 

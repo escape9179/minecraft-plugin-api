@@ -5,8 +5,6 @@ import logan.guiapi.fill.Filler;
 import logan.guiapi.util.PlaceholderParser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -18,7 +16,9 @@ import java.util.stream.Stream;
  *
  * @author Tre Logan
  */
-public class Menu implements Listener {
+public class Menu {
+
+    private static int nextId = 0;
 
     private final int id;
     private String title;
@@ -30,9 +30,14 @@ public class Menu implements Listener {
     private Map<Integer, MenuItem> menuItems = new HashMap<>();
 
     public Menu(String title, int rows) {
-        id = (int) (Math.random() * 1000);
+        id = nextId;
         this.title = title;
         slots = rows * 9;
+        nextId++;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void show(Player player) {
@@ -42,17 +47,21 @@ public class Menu implements Listener {
         inventory = Bukkit.createInventory(player, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
 
-        GUIAPI.addMenuListener(id, this);
+        GUIAPI.registerMenu(id, this);
         
         player.openInventory(inventory);
 
         viewer = player;
     }
 
+    public void close() {
+        viewer.closeInventory();
+    }
+
     private void parsePlaceholders(Player player) {
         title = PlaceholderParser.parse(title, player);
         menuItems.forEach((s, mi) -> {
-            mi.setName(PlaceholderParser.parse(mi.getName(), player));
+            mi.setName(PlaceholderParser.parse(mi.getDisplayName(), player));
             List<String> lore = mi.getLore();
             Stream<String> stream = lore.stream().map(l -> PlaceholderParser.parse(l, player));
             lore = stream.collect(Collectors.toList());
@@ -116,8 +125,11 @@ public class Menu implements Listener {
         return slots - 1;
     }
 
-    @EventHandler
-    public synchronized void onInventoryClick(InventoryClickEvent event) {
+    public Player getViewer() {
+        return viewer;
+    }
+
+    public void onInventoryClick(InventoryClickEvent event) {
 
         if (!(viewer.getUniqueId()).equals(event.getWhoClicked().getUniqueId())) return;
 

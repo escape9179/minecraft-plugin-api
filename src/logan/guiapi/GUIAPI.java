@@ -1,47 +1,45 @@
 package logan.guiapi;
 
 import logan.guiapi.util.PlaceholderManager;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  *
  * @author Tre Logan
  */
-public class GUIAPI extends JavaPlugin {
-    
-    private static GUIAPI plugin;
+public class GUIAPI {
 
-    private static Map<Integer, Listener> menuListeners = new HashMap<>();
+    private static Map<Integer, Menu> registeredMenus = new HashMap<>();
     private static PlaceholderManager placeholderManager = new PlaceholderManager();
-    
-    @Override
-    public void onEnable() {
-        plugin = this;
-        getLogger().info(getName() + " enabled.");
-    }
-    
-    @Override
-    public void onDisable() {
-        getLogger().info(getName() + " disabled.");
-    }
 
-    public static void addMenuListener(int id, Listener listener) {
-        if (menuListeners.containsKey(id)) return;
-        menuListeners.put(id, listener);
-        registerListener(listener);
-    }
-    
-    public static void registerListener(Listener listener) {
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+    public static void registerMenu(int id, Menu menu) {
+        if (registeredMenus.containsKey(id)) return;
+        registeredMenus.put(id, menu);
     }
 
     public static PlaceholderManager getPlaceholderManager() {
         return placeholderManager;
+    }
+
+    public static void callInventoryClickEvents(InventoryClickEvent event) {
+        for(Integer key : registeredMenus.keySet()) {
+            registeredMenus.get(key).onInventoryClick(event);
+        }
+    }
+
+    public static void callInventoryCloseEvents(InventoryCloseEvent event) {
+        Iterator<Integer> menuIterator = registeredMenus.keySet().iterator();
+        while(menuIterator.hasNext()) {
+            Menu menu = registeredMenus.get(menuIterator.next());
+            if (event.getPlayer().getUniqueId().equals(menu.getViewer().getUniqueId())) {
+                registeredMenus.remove(menu.getId());
+                menu.close();
+            }
+        }
     }
 }
