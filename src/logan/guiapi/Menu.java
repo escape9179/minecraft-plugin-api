@@ -24,6 +24,7 @@ public class Menu {
     private String title;
     private Inventory inventory;
     private int slots;
+    private boolean shouldClose = false;
 
     private Player viewer = null;
 
@@ -46,15 +47,19 @@ public class Menu {
         /* Create inventory and add items */
         inventory = Bukkit.createInventory(player, slots, title);
         menuItems.forEach((s, mi) -> inventory.setItem(s, mi.getItemStack()));
+        viewer = player;
 
         GUIAPI.registerMenu(id, this);
         
         player.openInventory(inventory);
+    }
 
-        viewer = player;
+    public boolean shouldClose() {
+        return shouldClose;
     }
 
     public void close() {
+        shouldClose = true;
         viewer.closeInventory();
     }
 
@@ -134,6 +139,9 @@ public class Menu {
         if (!(viewer.getUniqueId()).equals(event.getWhoClicked().getUniqueId())) return;
 
         event.setCancelled(true);
+
+        System.out.println("Got to here without an exception 1");
+
         menuItems.keySet().stream()
                 .filter(s -> s == event.getSlot())
                 .forEach(s -> menuItems.get(s).onClick(new MenuItemClickEvent(event)));

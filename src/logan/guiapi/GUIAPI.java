@@ -4,17 +4,16 @@ import logan.guiapi.util.PlaceholderManager;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *
  * @author Tre Logan
  */
 public class GUIAPI {
 
-    private static Map<Integer, Menu> registeredMenus = new HashMap<>();
+    private static Map<Integer, Menu> registeredMenus = new ConcurrentHashMap<>();
     private static PlaceholderManager placeholderManager = new PlaceholderManager();
 
     public static void registerMenu(int id, Menu menu) {
@@ -27,18 +26,20 @@ public class GUIAPI {
     }
 
     public static void callInventoryClickEvents(InventoryClickEvent event) {
-        for(Integer key : registeredMenus.keySet()) {
+        for (int key : registeredMenus.keySet()) {
             registeredMenus.get(key).onInventoryClick(event);
         }
     }
 
     public static void callInventoryCloseEvents(InventoryCloseEvent event) {
+        if (registeredMenus.isEmpty()) return;
         Iterator<Integer> menuIterator = registeredMenus.keySet().iterator();
-        while(menuIterator.hasNext()) {
-            Menu menu = registeredMenus.get(menuIterator.next());
-            if (event.getPlayer().getUniqueId().equals(menu.getViewer().getUniqueId())) {
-                registeredMenus.remove(menu.getId());
-                menu.close();
+        while (menuIterator.hasNext()) {
+            int id = menuIterator.next();
+            Menu menu = registeredMenus.get(id);
+            if (menu.shouldClose()) {
+                menuIterator.remove();
+                registeredMenus.remove(id);
             }
         }
     }
