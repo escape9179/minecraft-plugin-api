@@ -140,8 +140,6 @@ public class Menu {
 
         event.setCancelled(true);
 
-        System.out.println("Got to here without an exception 1");
-
         menuItems.keySet().stream()
                 .filter(s -> s == event.getSlot())
                 .forEach(s -> menuItems.get(s).onClick(new MenuItemClickEvent(event)));
