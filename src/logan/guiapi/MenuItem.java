@@ -16,13 +16,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author Tre Logan
  */
 public final class MenuItem implements MenuItemClickListener {
 
     private MenuItemClickListener listener;
-    private ItemStack itemStack;
+    private ItemStack             itemStack;
 
     public MenuItem(String name, ItemStack itemStack) {
         this.itemStack = itemStack.clone();
@@ -32,7 +31,7 @@ public final class MenuItem implements MenuItemClickListener {
     public MenuItem(String name) {
         this(name, new ItemStack(Material.DIRT));
     }
-    
+
     public MenuItem(ItemStack itemStack) {
         this.itemStack = itemStack.clone();
     }
@@ -105,7 +104,7 @@ public final class MenuItem implements MenuItemClickListener {
         });
         return this;
     }
-    
+
     public final MenuItem setLore(ChatColor color, String... lore) {
         setLore(color, Arrays.asList(lore));
         return this;
@@ -158,11 +157,11 @@ public final class MenuItem implements MenuItemClickListener {
     public Map<Enchantment, Integer> getEnchantments() {
         return getMetaProperty(ItemMeta::getEnchants);
     }
-    
+
     public Set<ItemFlag> getItemFlags() {
         return getMetaProperty(ItemMeta::getItemFlags);
     }
-    
+
     private void setMetaProperty(Function<ItemMeta, ItemMeta> function) {
         itemStack.setItemMeta(function.apply(itemStack.getItemMeta()));
     }
@@ -170,21 +169,21 @@ public final class MenuItem implements MenuItemClickListener {
     private <T> T getMetaProperty(Function<ItemMeta, T> function) {
         return function.apply(itemStack.getItemMeta());
     }
-    
+
     public MenuItem addListener(MenuItemClickListener listener) {
         this.listener = listener;
         return this;
     }
-    
+
     public MenuItemClickListener getListener() {
         return listener;
     }
-    
+
     @Override
     public void onClick(MenuItemClickEvent event) {
         if (listener != null) {
             listener.onClick(event);
         }
     }
-    
+
 }
