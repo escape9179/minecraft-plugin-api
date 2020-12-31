@@ -1,4 +1,4 @@
-package logan.guiapi;
+package logan.api.gui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

@@ -1,4 +1,4 @@
-package logan.guiapi;
+package logan.api.gui;
 
 public interface MenuItemClickListener {
 

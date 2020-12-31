@@ -1,6 +1,6 @@
-package logan.guiapi.fill;
+package logan.api.gui.fill;
 
-import logan.guiapi.Menu;
+import logan.api.gui.Menu;
 import org.bukkit.Material;
 
 import java.util.Collection;

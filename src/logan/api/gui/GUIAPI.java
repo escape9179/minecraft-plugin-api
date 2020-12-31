@@ -1,6 +1,6 @@
-package logan.guiapi;
+package logan.api.gui;
 
-import logan.guiapi.util.PlaceholderManager;
+import logan.api.gui.util.PlaceholderManager;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;

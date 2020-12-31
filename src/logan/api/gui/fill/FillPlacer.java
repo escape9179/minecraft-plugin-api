@@ -1,7 +1,7 @@
-package logan.guiapi.fill;
+package logan.api.gui.fill;
 
-import logan.guiapi.Menu;
-import logan.guiapi.MenuItem;
+import logan.api.gui.Menu;
+import logan.api.gui.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,7 +30,7 @@ public class FillPlacer {
 
     public void placeIntermittently(Menu menu, int start, int spacing, Collection<Integer> slots, FillMode mode) {
 
-        int size = menu.getSlots();
+        int size = menu.getSize();
         double times = ((double) (size - start) / spacing);
         times = Math.ceil(times);
 

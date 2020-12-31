@@ -1,4 +1,4 @@
-package logan.guiapi.util;
+package logan.api.gui.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

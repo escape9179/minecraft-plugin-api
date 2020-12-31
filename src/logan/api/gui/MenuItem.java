@@ -1,4 +1,4 @@
-package logan.guiapi;
+package logan.api.gui;
 
 import com.google.common.collect.Lists;
 import org.bukkit.ChatColor;

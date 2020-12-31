@@ -1,6 +1,6 @@
-package logan.guiapi.util;
+package logan.api.gui.util;
 
-import logan.guiapi.GUIAPI;
+import logan.api.gui.GUIAPI;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
