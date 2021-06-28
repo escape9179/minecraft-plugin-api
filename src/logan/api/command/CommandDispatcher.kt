@@ -40,12 +40,12 @@ class CommandDispatcher private constructor() {
 
             /* Subtract 1 from the arg size to ignore sub-command name arg. */
             if (!isValidArgLength(foundCommand.second.size, foundCommand.first.argRange)) {
-                sender.sendMessage("${ChatColor.RED}Incorrect number of arguments.\n${foundCommand.first.usage}")
+                foundCommand.first.usage?.let { sender.sendMessage(it) }
                 return true
             }
 
             if (!isCorrectArgTypeList(foundCommand.second, foundCommand.first.argTypes)) {
-                sender.sendMessage("${ChatColor.RED}Incorrect argument types.\n${foundCommand.first.usage}")
+                foundCommand.first.usage?.let { sender.sendMessage(it) }
                 return true
             }
 
